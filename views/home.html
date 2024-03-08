@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4 - API Test with Express</title>
+    <script>
+        function makeAJAXRequest(method, url, body){
+            fetch(url, {
+                method: method,
+                body: JSON.stringify(body),
+                headers:{'Content-type': 'application/json'}
+            })
+            .then((response)=>{
+                return response.ok ? response.json() : Promise.reject(response.status)
+            })
+            .then((json)=>{
+                console.log(json)
+            })
+            .catch((err)=>{
+                console.log(`An Error Occurred with status: ${err}`)
+            });
+        }
+        
+        function addUser() {
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            makeAJAXRequest("POST", "/api/users", {fName: firstName, lName: lastName});
+        }
+
+        function updateUser() {
+            const firstName = document.getElementById("updateFirstName").value;
+            const lastName = document.getElementById("updateLastName").value;
+            makeAJAXRequest("PUT", "/api/users/4", {fName: firstName, lName: lastName});
+        }
+
+        function deleteUser() {
+            const userId = document.getElementById("deleteUserId").value;
+            makeAJAXRequest("DELETE", "/api/users/" + userId);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Test the API by outputting to the browser console:</h1>
+
+        <!-- Get All Users -->
+        <button type="button" onclick='makeAJAXRequest("GET", "/api/users")'>Get All Users</button>
+        
+        <!-- Get User by Id -->
+        <div class="group">
+            <button type="button" onclick='makeAJAXRequest("GET", "/api/users/2")'>Get User ID</button>
+        </div>
+
+        <!-- Post User's name -->
+        <div class="group">
+            <input type="text" id="firstName" placeholder="Enter First Name">
+            <input type="text" id="lastName" placeholder="Enter Last Name">
+            <button type="button" onclick="addUser()">Add a new user</button>
+        </div>
+
+        <!-- Put method -> Update userId -->
+        <div class="group">
+            <input type="text" id="updateFirstName" placeholder="Enter First Name">
+            <input type="text" id="updateLastName" placeholder="Enter Last Name">
+            <button type="button" onclick="updateUser()">Update User</button>
+        </div>
+
+        <!-- Delete user by id -->
+        <div class="group">
+            <input type="text" id="deleteUserId" placeholder="Enter User ID">
+            <button type="button" onclick="deleteUser()">Delete User</button>
+        </div>
+
+        <!-- Error handling test -->
+        <button type="button" onclick='makeAJAXRequest("Get", "/api/unknown")'>Trigger an ERROR (testing)</button>
+    </div>
+</body>
+</html>

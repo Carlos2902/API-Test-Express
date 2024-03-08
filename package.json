@@ -1,0 +1,21 @@
+{
+  "name": "api-test-with-express",
+  "version": "1.0.0",
+  "description": "API Test with Express",
+  "main": "server.js",
+  "scripts": {
+    "test": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "API",
+    "request",
+    "with",
+    "Express"
+  ],
+  "author": "Carlos Lopez",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
